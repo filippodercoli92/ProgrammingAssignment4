@@ -1,1 +1,7 @@
-Variables introduced in the script:
+Variables introduced or modified in the script:
+- trainData: contains the reading from file "X_train"
+- trainLabel: contains the reading from file "y_train"
+- trainSub: contains the reading from file "subject_train"
+- testData: contains the reading from file "X_test"
+- testLabel: contains the reading from file "y_test"
+- testSub: contains the reading from file "subject_train"
