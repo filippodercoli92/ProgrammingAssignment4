@@ -16,4 +16,7 @@ Variables introduced or modified in the script:
   variables for each measurement.
 - smallTest: is a selection from fullTest. It contains the columns activity_id, subject_id, set and the mean and std. deviations 
   variables for each measurement.
-
+- mergedSmall: data frame obtained row binding smallTrain and smallTest. The measurement variable are given an appropriate name and 
+  activity ids modified.
+- mergedSmallGroup: mergedSmall grouped by activity_id and subject_id.
+- summary: data frame containing the mean of each numeric variable for each activity and subject.
