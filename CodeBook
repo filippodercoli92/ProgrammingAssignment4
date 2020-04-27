@@ -6,12 +6,14 @@ Variables introduced or modified in the script:
 - testLabel: data frame containing the reading from file "y_test".
 - testSub: data frame containing the reading from file "subject_train".
 - set: variable describing the origin of the observation. It has 2 values: "Train" and "Test". 
-- fullTrain: data frame created from the binding of 
-- fullTest: data frame containing
-- activity_id: column for the numeric activity label; later modified with the full name of the activities.
-- subject_id: column for the numeric subject label.
-- set:
+- fullTrain: data frame created from the binding of trainLabel, trainSub, set and trainData.
+- fullTest: data frame created from the binding of testLabel, testSub, set and testData.
+- activity_id: name given to the column "...Label" containing the numeric activity label; later modified with the full name of the 
+  activities.
+- subject_id:name given to the column "...Label" containing the numeric subject label.
 - contT1, contT2, contF1, contF2: are counters to extract the mean and std. deviations variables for each measurement.
-- smallTrain: is a 
-- smallTest
+- smallTrain: is a selection from fullTrain. It contains the columns activity_id, subject_id, set and the mean and std. deviations 
+  variables for each measurement.
+- smallTest: is a selection from fullTest. It contains the columns activity_id, subject_id, set and the mean and std. deviations 
+  variables for each measurement.
 
