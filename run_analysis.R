@@ -1,26 +1,28 @@
-## This is the script I realized for the assignment
+# This is the script I realized for the assignment
 
-## Reading all the files containing the data I need. X_train and X_test files have been 
-## modified to remove double empty spaces which would prevent correct reading.
+library(dplyr)
+
+# Reading all the files containing the data I need. X_train and X_test files have been 
+# modified to remove double empty spaces which would prevent correct reading.
 trainData <- read.csv("./UCI HAR Dataset/train/X_train.txt", sep = " ", header = FALSE)
 trainLabel <- read.csv("./UCI HAR Dataset/train/y_train.txt", sep = " ", header = FALSE)
 trainSub <- read.csv("./UCI HAR Dataset/train/subject_train.txt", sep = " ", header = FALSE)
 testData <- read.csv("./UCI HAR Dataset/test/X_test.txt", sep = " ", header = FALSE)
 testLabel <- read.csv("./UCI HAR Dataset/test/y_test.txt", sep = " ", header = FALSE)
 testSub <- read.csv("./UCI HAR Dataset/test/subject_test.txt", sep = " ", header = FALSE)
-## Removing first empty column
+# Removing first empty columns
 testData <- select(testData, -1)
 trainData <- select(trainData, -1)
 
-## Creating a data frame for train and test data. A new column has been added and the variable "set" 
-## created which distinguish train set from test set.
+# Creating a data frame for train and test data. A new column has been added and the variable "set" 
+# created which distinguish train set from test set.
 fullTrain <- cbind(trainLabel,trainSub,"Train",trainData)
 names(fullTrain) <- c("activity_id","subject_id", "set", "1":"561")
 fullTest <- cbind(testLabel,testSub,"Test",testData)
 names(fullTest) <- c("activity_id", "subject_id", "set", "1":"561")
 
-## Point2: Exctracting the mean and std. dev. data
-## Creating a counter to extract the correct columns
+# Point2: Exctracting the mean and std. dev. data
+# Creating a counter to extract the correct columns
 contT1 <- NULL
 contT2 <- NULL
 contF1 <- NULL
@@ -41,17 +43,17 @@ for (i in t3) {
 for (i in t4) {
   contF2 <- c(contF2,503+3+i*13,504+3+i*13)
 }
-## Creating reduced tables with just means and std deviations
+# Creating reduced tables with just means and std deviations
 smallTrain <- select(fullTrain, activity_id, subject_id, set, all_of(contT1), all_of(contT2), all_of(contF1), all_of(contF2))
 smallTest <- select(fullTest, activity_id, subject_id, set, all_of(contT1), all_of(contT2), all_of(contF1), all_of(contF2))
 
-## Point1: Row binding the 2 tables in single data frame
+# Point1: Row binding the 2 tables in single data frame
 mergedSmall <- rbind(smallTrain, smallTest)
 
-## Point3: Renaming the activity ids
+# Point3: Renaming the activity ids
 mergedSmall <- mutate(mergedSmall, activity_id = factor(activity_id, labels = c("walking","walking_upstairs","walking_downstairs","sitting","standing","laying")))
 
-## Point4: Renaming variables
+# Point4: Renaming variables
 namesVar <- c("tBodyAcc_mean_X","tBodyAcc_mean_Y","tBodyAcc_mean_Z","tBodyAcc_std_X","tBodyAcc_std_Y","tBodyAcc_std_Z",
               "tGravityAcc_mean_X","tGravityAcc_mean_Y","tGravityAcc_mean_Z","tGravityAcc_std_X","tGravityAcc_std_Y","tGravityAcc_std_Z",
               "tBodyAccJerk_mean_X","tBodyAccJerk_mean_Y","tBodyAccJerk_mean_Z","tBodyAccJerk_std_X","tBodyAccJerk_std_Y","tBodyAccJerk_std_Z",
@@ -71,9 +73,17 @@ namesVar <- c("tBodyAcc_mean_X","tBodyAcc_mean_Y","tBodyAcc_mean_Z","tBodyAcc_st
               "fBodyBodyGyroJerkMag_mean","fBodyBodyGyroJerkMag_std")
 names(mergedSmall) <- c("activity_id", "subject_id", "set", namesVar)
 
-## Point5: 
+# Point5: 
+mergedSmall <- tbl_df(mergedSmall)
 mergedSmallGrouped <- group_by(mergedSmall, activity_id, subject_id)
 
+summary <- summarise(mergedSmallGrouped, mean(tBodyAcc_mean_X))
 
+#for (i in 4:69) {
+#  name <- names(mergedSmallGrouped) [i]
+#  iMean <- summarise(mergedSmallGrouped, mean(.data[[name]]))
+#  allMean <- cbind(summary[1], summary[2], iMean[,3])
+#}
+#summary <- s(summary, -1)
 
 
