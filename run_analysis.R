@@ -77,7 +77,7 @@ names(mergedSmall) <- c("activity_id", "subject_id", "set", namesVar)
 mergedSmall <- tbl_df(mergedSmall)
 mergedSmallGrouped <- group_by(mergedSmall, activity_id, subject_id)
 
-summary <- summarise_all(mergedSmallGrouped, mean)
+summary <- summarise_all(mergedSmallGrouped, mean) %>% select(-3)
 
 write.table(summary, "./Project_Filippo", row.names = FALSE)
 
