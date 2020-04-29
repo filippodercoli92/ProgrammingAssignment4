@@ -77,13 +77,7 @@ names(mergedSmall) <- c("activity_id", "subject_id", "set", namesVar)
 mergedSmall <- tbl_df(mergedSmall)
 mergedSmallGrouped <- group_by(mergedSmall, activity_id, subject_id)
 
-summary <- summarise(mergedSmallGrouped, mean(tBodyAcc_mean_X))
+summary <- summarise_all(mergedSmallGrouped, mean)
 
-#for (i in 4:69) {
-#  name <- names(mergedSmallGrouped) [i]
-#  iMean <- summarise(mergedSmallGrouped, mean(.data[[name]]))
-#  allMean <- cbind(summary[1], summary[2], iMean[,3])
-#}
-#summary <- s(summary, -1)
-
+write.table(summary, "./Project_Filippo", row.names = FALSE)
 
